@@ -89,6 +89,7 @@ const LoginScreen = () => {
               style={{ marginLeft: 8, color: "gray" }}
             />
             <TextInput
+              secureTextEntry={true}
               placeholder="Enter your Password"
               style={{
                 color: "gray",
@@ -161,7 +162,6 @@ const LoginScreen = () => {
               color: "#007FFF",
             }}
             onPress={() => navigator.navigate("Register")}
-
           >
             Sign up
           </Text>

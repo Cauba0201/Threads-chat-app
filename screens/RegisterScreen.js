@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Pressable,
+  Alert,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,11 +14,41 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
   const navigator = useNavigation("");
+
+  const handleRegister = () => {
+    const user = {
+      name: name,
+      email: email,
+      password: password,
+    };
+
+    axios
+      .post("http://localhost:3000/register", user)
+      .then((response) => {
+        console.log(response);
+        Alert.alert(
+          "Registeration successful",
+          "you have been resgistered successfully"
+        );
+        setName("");
+        setEmail("");
+        setPassword("");
+      })
+      .catch((error) => {
+        Alert.alert(
+          "Resgistration failed",
+          "An error occurred during resgistration"
+        );
+        console.log("error", error);
+      });
+  };
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: "white", alignItems: "center" }}
@@ -50,9 +81,46 @@ const RegisterScreen = () => {
               marginVertical: 5,
             }}
           >
-            <MaterialIcons name="account-circle" size={24} color="gray" style={{marginLeft:8}} />
+            <MaterialIcons
+              name="account-circle"
+              size={24}
+              color="gray"
+              style={{ marginLeft: 8 }}
+            />
             <TextInput
               placeholder="Username"
+              style={{
+                color: "gray",
+                marginVertical: 10,
+                width: 300,
+                fontSize: email ? 16 : 16,
+              }}
+              value={name}
+              onChange={(text) => setName(text)}
+            />
+          </View>
+        </View>
+        <View style={{ marginTop: 20 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 5,
+              borderColor: "#D0D0D0",
+              borderWidth: 1,
+              borderRadius: 8,
+              marginHorizontal: 10,
+              marginVertical: 5,
+            }}
+          >
+            <MaterialIcons
+              name="email"
+              size={24}
+              color="black"
+              style={{ marginLeft: 8, color: "gray" }}
+            />
+            <TextInput
+              placeholder="Enter your Email"
               style={{
                 color: "gray",
                 marginVertical: 10,
@@ -77,39 +145,6 @@ const RegisterScreen = () => {
               marginVertical: 5,
             }}
           >
-            <MaterialIcons
-              name="email"
-              size={24}
-              color="black"
-              style={{ marginLeft: 8, color: "gray" }}
-            />
-            <TextInput
-              placeholder="Enter your Password"
-              style={{
-                color: "gray",
-                marginVertical: 10,
-                width: 300,
-                fontSize: Password ? 16 : 16,
-              }}
-              value={Password}
-              onChange={(text) => setPassword(text)}
-            />
-          </View>
-          
-        </View>
-        <View style={{ marginTop: 20 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 5,
-              borderColor: "#D0D0D0",
-              borderWidth: 1,
-              borderRadius: 8,
-              marginHorizontal: 10,
-              marginVertical: 5,
-            }}
-          >
             <FontAwesome
               name="lock"
               size={24}
@@ -117,14 +152,15 @@ const RegisterScreen = () => {
               style={{ marginLeft: 8, color: "gray" }}
             />
             <TextInput
+              secureTextEntry={true}
               placeholder="Enter your Password"
               style={{
                 color: "gray",
                 marginVertical: 10,
                 width: 300,
-                fontSize: Password ? 16 : 16,
+                fontSize: password ? 16 : 16,
               }}
-              value={Password}
+              value={password}
               onChange={(text) => setPassword(text)}
             />
           </View>
@@ -147,6 +183,7 @@ const RegisterScreen = () => {
         <View style={{ marginTop: 45 }} />
 
         <Pressable
+          onPress={handleRegister}
           style={{
             width: 200,
             backgroundColor: "black",
@@ -178,7 +215,7 @@ const RegisterScreen = () => {
           }}
         >
           <Text style={{ textAlign: "center", fontSize: 16 }}>
-            Don't have an account?
+            Already have an account?
           </Text>
           <Text
             style={{
@@ -188,9 +225,9 @@ const RegisterScreen = () => {
               fontWeight: 400,
               color: "#007FFF",
             }}
-            onPress={() => navigator.navigate("Register")}
+            onPress={() => navigator.goBack()}
           >
-            Login
+            Sign In
           </Text>
         </Pressable>
       </KeyboardAvoidingView>
