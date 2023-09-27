@@ -48,6 +48,7 @@ const RegisterScreen = () => {
         );
         console.log("error", error);
       });
+      console.log(axios.isCancel('something'));
   };
   return (
     <SafeAreaView
@@ -93,10 +94,10 @@ const RegisterScreen = () => {
                 color: "gray",
                 marginVertical: 10,
                 width: 300,
-                fontSize: email ? 16 : 16,
+                fontSize: name ? 16 : 16,
               }}
               value={name}
-              onChange={(text) => setName(text)}
+              onChangeText={(text) => setName(text)}
             />
           </View>
         </View>
@@ -128,7 +129,7 @@ const RegisterScreen = () => {
                 fontSize: email ? 16 : 16,
               }}
               value={email}
-              onChange={(text) => setEmail(text)}
+              onChangeText={(text) => setEmail(text)}
             />
           </View>
         </View>
@@ -161,7 +162,7 @@ const RegisterScreen = () => {
                 fontSize: password ? 16 : 16,
               }}
               value={password}
-              onChange={(text) => setPassword(text)}
+              onChangeText={(text) => setPassword(text)}
             />
           </View>
           <View

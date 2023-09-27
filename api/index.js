@@ -79,7 +79,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
     from: "threads.com",
     to: email,
     subject: "email Verifitication",
-    text: `please click the following link to verify your email ${verificationToken}`,
+    text: `please click the following link to verify your email htttp://localhost:3000/verify/${verificationToken}`,
   };
   try {
     await transporter.sendMail(mailOptions);
